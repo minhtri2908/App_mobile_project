@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".HomeFragment">
+
+
+    <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="#F30000"
+                android:clipToPadding="false"
+                android:elevation="9dp"
+                android:outlineProvider="bounds"
+                app:theme="@style/Theme.AppCompat.DayNight">
+
+            <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    app:layout_scrollFlags="scroll|enterAlways"
+                    app:title="Đề xuất" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+    <TextView
+            android:id="@+id/text1_home_page"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="60dp"
+            android:paddingStart="16dp"
+            android:text="Top truyện tranh"
+            android:textSize="20sp" />
+
+
+    <ViewFlipper
+            android:id="@+id/Slide_image"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_below="@+id/text1_home_page"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:autoStart="true"
+            android:flipInterval="5000"
+            android:inAnimation="@android:anim/slide_in_left"
+            android:outAnimation="@android:anim/slide_out_right">
+
+        <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/slide_1" />
+
+        <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/slide_2" />
+
+        <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/slide_3" />
+
+        <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/slide_4" />
+
+        <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/slide_5" />
+    </ViewFlipper>
+
+    <TextView
+            android:id="@+id/text2_home_page"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/Slide_image"
+            android:layout_marginStart="8dp"
+            android:paddingStart="16dp"
+            android:text="Có thể bạn sẽ thích"
+            android:textSize="20sp" />
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/text2_home_page"
+            android:layout_gravity="bottom">
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_manga"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>
