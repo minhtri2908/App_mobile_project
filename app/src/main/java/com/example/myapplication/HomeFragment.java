@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -43,28 +45,30 @@ public class HomeFragment extends Fragment {
 
     private List<Manga> mangaList = new ArrayList<>();
 
-    @SuppressLint("NotifyDataSetChanged")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_home, container, false);
+    }
 
-        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         // Create adapter
         mangaAdapter = new MangaAdapter(this.getContext(), mangaList);
 
         // Set recycler view
-        recycler_manga = rootView.findViewById(R.id.recycler_manga);
+        recycler_manga = view.findViewById(R.id.recycler_manga);
         recycler_manga.setHasFixedSize(true);
         recycler_manga.setLayoutManager(new GridLayoutManager(this.getContext(), 2));
         recycler_manga.setAdapter(mangaAdapter);
 
         // Get data from firestore
-        getMangaList();
+        if (mangaList.isEmpty()){
+            getMangaList();
+        }
         Log.i("mangaList", String.valueOf(mangaList));
-
-        // Inflate the layout for this fragment
-        return rootView;
     }
 
     private void getMangaList() {
