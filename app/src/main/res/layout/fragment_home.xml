@@ -100,14 +100,14 @@
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@id/text2_home_page"
             android:layout_gravity="bottom">
 
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_manga"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="wrap_content"/>
 
 
     </LinearLayout>
