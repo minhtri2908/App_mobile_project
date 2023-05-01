@@ -8,7 +8,7 @@
         android:background="@drawable/loginbkg"
         android:gravity="center"
         android:orientation="vertical"
-        tools:context=".MainActivity">
+        tools:context=".Service.MainActivity">
 
     <androidx.cardview.widget.CardView
             android:id="@+id/cardregister"

@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.Service;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.myapplication.Adapter.MangaAdapter;
 import com.example.myapplication.Model.Manga;
+import com.example.myapplication.R;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;

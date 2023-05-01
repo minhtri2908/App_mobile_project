@@ -12,16 +12,19 @@
         android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".Register"
+            android:name=".Service.ViewMangaActivity"
             android:exported="false" />
         <activity
-            android:name=".Login"
+            android:name=".Service.Register"
             android:exported="false" />
         <activity
-            android:name=".ChapterActivity"
+            android:name=".Service.Login"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Service.ChapterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Service.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

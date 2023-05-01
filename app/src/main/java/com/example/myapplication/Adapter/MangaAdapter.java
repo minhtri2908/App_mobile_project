@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.ChapterActivity;
+import com.example.myapplication.Service.ChapterActivity;
 import com.example.myapplication.Common.Common;
 import com.example.myapplication.Interface.IRecyclerOnClick;
 import com.example.myapplication.Model.Manga;
@@ -79,7 +79,7 @@ public class MangaAdapter extends RecyclerView.Adapter<MangaAdapter.MangaViewHol
 
         @Override
         public void onClick(View view) {
-            iRecyclerOnClick.onClick(getAdapterPosition(), view);
+            iRecyclerOnClick.onClick(getAbsoluteAdapterPosition(), view);
         }
     }
 }
