@@ -1,6 +1,9 @@
 package com.example.myapplication.Service;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.core.view.GestureDetectorCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -8,13 +11,18 @@ import android.graphics.Bitmap;
 import android.graphics.pdf.PdfRenderer;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.myapplication.Adapter.MangaPagesAdapter;
 import com.example.myapplication.Common.Common;
 import com.example.myapplication.R;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -33,33 +41,112 @@ public class ViewMangaActivity extends AppCompatActivity {
 
     private RecyclerView recyclerMangaPages;
 
+    private MaterialToolbar toolbar;
+
+    private GestureDetectorCompat gestureDetector;
+
+    private View decorView;
+
+    private LinearLayoutCompat utilityBar;
+
+    private AppBarLayout appBarLayout;
+
+    private CollapsingToolbarLayout collapsingToolbarLayout;
+
+    private boolean isExpanded;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        decorView = getWindow().getDecorView();
         setContentView(R.layout.activity_view_manga);
 
-        View iconChapterNext = findViewById(R.id.view_chapter_next);
-        iconChapterNext.setOnClickListener(new View.OnClickListener() {
+        utilityBar = findViewById(R.id.utility_bar);
+        utilityBar.setVisibility(View.GONE);
+
+        appBarLayout = findViewById(R.id.app_bar_layout);
+        appBarLayout.setExpanded(true);
+        collapsingToolbarLayout = findViewById(R.id.toolbar_layout);
+
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
-            public void onClick(View v) {
-                if (Common.chapter_index == Common.chapterList.size() - 1){
-                    Toast.makeText(ViewMangaActivity.this, "You are reading last chapter", Toast.LENGTH_SHORT).show();
-                }   else{
-                    Common.chapter_index++;
-                    getMangaPages(Common.chapterList.get(Common.chapter_index));
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (verticalOffset == 0) {
+                    isExpanded = true;
+                } else if (Math.abs(verticalOffset) >= appBarLayout.getTotalScrollRange()) {
+                    isExpanded = false;
+                } else {
+                    isExpanded = false;
                 }
             }
         });
 
-        View iconChapterPrevious = findViewById(R.id.view_chapter_back);
-        iconChapterPrevious.setOnClickListener(new View.OnClickListener() {
+        gestureDetector = new GestureDetectorCompat(this, new GestureDetector.SimpleOnGestureListener(){
+
+//            @Override
+//            public boolean onSingleTapConfirmed(@NonNull MotionEvent e) {
+//                boolean visible = ((decorView.getSystemUiVisibility() & View.SYSTEM_UI_FLAG_HIDE_NAVIGATION) == 0)
+//                        && (utilityBar.getVisibility() == View.VISIBLE);
+//                if (visible){
+//                    hideSystemUI();
+//                    utilityBar.setVisibility(View.GONE);
+//                }   else{
+//                    showSystemUI();
+//                    utilityBar.setVisibility(View.VISIBLE);
+//                }
+//                return true;
+//            }
+
+
+            @Override
+            public boolean onSingleTapConfirmed(@NonNull MotionEvent e) {
+                boolean visible = utilityBar.getVisibility() == View.VISIBLE;
+                if (visible){
+                    utilityBar.setVisibility(View.GONE);
+                    if (isExpanded)
+                        appBarLayout.setExpanded(false);
+                }   else{
+                    utilityBar.setVisibility(View.VISIBLE);
+                    if (!isExpanded)
+                        appBarLayout.setExpanded(true);
+                }
+                return true;
+            }
+        });
+
+
+
+        toolbar = findViewById(R.id.toolbar_view_manga);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_left_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        Button buttonPrevious = findViewById(R.id.button_previous);
+        Button buttonNext = findViewById(R.id.button_next);
+
+        buttonPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (Common.chapter_index == 0){
                     Toast.makeText(ViewMangaActivity.this, "You are reading first chapter", Toast.LENGTH_SHORT).show();
                 }   else{
                     Common.chapter_index--;
+                    getMangaPages(Common.chapterList.get(Common.chapter_index));
+                }
+            }
+        });
+
+        buttonNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Common.chapter_index == Common.chapterList.size() - 1){
+                    Toast.makeText(ViewMangaActivity.this, "You are reading last chapter", Toast.LENGTH_SHORT).show();
+                }   else{
+                    Common.chapter_index++;
                     getMangaPages(Common.chapterList.get(Common.chapter_index));
                 }
             }
@@ -75,15 +162,19 @@ public class ViewMangaActivity extends AppCompatActivity {
         recyclerMangaPages.setAdapter(mangaPagesAdapter);
 
         getMangaPages(Common.selected_chapter);
+    }
 
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        gestureDetector.onTouchEvent(ev);
+        return super.dispatchTouchEvent(ev);
     }
 
     private void getMangaPages(String chapter) {
         mangaPageList.clear();
         mangaPagesAdapter.notifyDataSetChanged();
         Common.selected_chapter = chapter;
-        TextView textViewChapterName = findViewById(R.id.text_view_chapter_name);
-        textViewChapterName.setText(Common.selected_chapter);
+        toolbar.setTitle(Common.selected_chapter);
 
         try{
             StorageReference pdfRef = storageRef
