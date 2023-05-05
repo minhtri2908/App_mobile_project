@@ -13,7 +13,6 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.myapplication.Common.Common;
 import com.example.myapplication.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
@@ -22,18 +21,14 @@ public class MainActivity extends AppCompatActivity {
     static SettingFragment settingFragment = new SettingFragment();
     static UserProfileFragment userProfileFragment = new UserProfileFragment();
 
-    static LoginFragment loginFragment = new LoginFragment();
+    static LoginActivity loginFragment = new LoginActivity();
     private ViewPager viewPager;
-
-    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mAuth = FirebaseAuth.getInstance();
-        Common.currentUser = mAuth.getCurrentUser();
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         viewPager = findViewById(R.id.container);
 
@@ -85,11 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 case 1:
                     return searchFragment;
                 case 2:
-                    if (Common.currentUser != null) {
-                        return userProfileFragment;
-                    }   else{
-                        return loginFragment;
-                    }
+                    return userProfileFragment;
                 case 3:
                     return settingFragment;
                 default:
@@ -97,4 +88,5 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
 }

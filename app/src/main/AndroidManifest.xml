@@ -18,7 +18,7 @@
             android:name=".Service.Register"
             android:exported="false" />
         <activity
-            android:name=".Service.LoginFragment"
+            android:name=".Service.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".Service.ChapterActivity"

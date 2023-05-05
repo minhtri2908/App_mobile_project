@@ -1,6 +1,7 @@
 package com.example.myapplication.Common;
 
 import com.example.myapplication.Model.Manga;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
@@ -13,5 +14,8 @@ public class Common {
 
     public static List<String> chapterList = new ArrayList<>();
 
-    public static FirebaseUser currentUser = null;
+    public static FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+    public static FirebaseUser currentUser = mAuth.getCurrentUser();
+
 }
