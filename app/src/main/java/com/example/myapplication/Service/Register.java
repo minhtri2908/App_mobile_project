@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.Service.Login;
 
 public class Register extends AppCompatActivity {
 
@@ -42,7 +41,7 @@ public class Register extends AppCompatActivity {
         logintext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), Login.class);
+                Intent intent = new Intent(getApplicationContext(), LoginFragment.class);
                 startActivity(intent);
                 finish();
             }
