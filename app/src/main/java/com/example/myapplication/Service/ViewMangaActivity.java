@@ -7,23 +7,35 @@ import androidx.core.view.GestureDetectorCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.gesture.Gesture;
 import android.graphics.Bitmap;
 import android.graphics.pdf.PdfRenderer;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.example.myapplication.Adapter.MangaPagesAdapter;
 import com.example.myapplication.Common.Common;
 import com.example.myapplication.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
@@ -55,6 +67,8 @@ public class ViewMangaActivity extends AppCompatActivity {
 
     private boolean isExpanded;
 
+    private ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +77,8 @@ public class ViewMangaActivity extends AppCompatActivity {
 
         utilityBar = findViewById(R.id.utility_bar);
         utilityBar.setVisibility(View.GONE);
+
+        progressBar = findViewById(R.id.progress_bar);
 
         appBarLayout = findViewById(R.id.app_bar_layout);
         appBarLayout.setExpanded(true);
@@ -80,40 +96,6 @@ public class ViewMangaActivity extends AppCompatActivity {
                 }
             }
         });
-
-        gestureDetector = new GestureDetectorCompat(this, new GestureDetector.SimpleOnGestureListener(){
-
-//            @Override
-//            public boolean onSingleTapConfirmed(@NonNull MotionEvent e) {
-//                boolean visible = ((decorView.getSystemUiVisibility() & View.SYSTEM_UI_FLAG_HIDE_NAVIGATION) == 0)
-//                        && (utilityBar.getVisibility() == View.VISIBLE);
-//                if (visible){
-//                    hideSystemUI();
-//                    utilityBar.setVisibility(View.GONE);
-//                }   else{
-//                    showSystemUI();
-//                    utilityBar.setVisibility(View.VISIBLE);
-//                }
-//                return true;
-//            }
-
-
-            @Override
-            public boolean onSingleTapConfirmed(@NonNull MotionEvent e) {
-                boolean visible = utilityBar.getVisibility() == View.VISIBLE;
-                if (visible){
-                    utilityBar.setVisibility(View.GONE);
-                    if (isExpanded)
-                        appBarLayout.setExpanded(false);
-                }   else{
-                    utilityBar.setVisibility(View.VISIBLE);
-                    if (!isExpanded)
-                        appBarLayout.setExpanded(true);
-                }
-                return true;
-            }
-        });
-
 
 
         toolbar = findViewById(R.id.toolbar_view_manga);
@@ -173,76 +155,111 @@ public class ViewMangaActivity extends AppCompatActivity {
     private void getMangaPages(String chapter) {
         mangaPageList.clear();
         mangaPagesAdapter.notifyDataSetChanged();
+        progressBar.setVisibility(View.VISIBLE);
         Common.selected_chapter = chapter;
         toolbar.setTitle(Common.selected_chapter);
+
+        // Reset Gesture Detector
+        gestureDetector = new GestureDetectorCompat(this, new GestureDetector.SimpleOnGestureListener());
 
         try{
             StorageReference pdfRef = storageRef
                     .child("chapter/" + Common.selected_manga.getName() + "/" + chapter + ".pdf");
             File file = File.createTempFile("pdf", "pdf");
-            pdfRef.getFile(file)
-                    .addOnCompleteListener(task -> {
-                        ParcelFileDescriptor fileDescriptor = null;
-                        try {
-                            fileDescriptor = ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY);
-                            PdfRenderer renderer = new PdfRenderer(fileDescriptor);
 
-                            // Render the first page of the PDF into a Bitmap object
-                            int pageCount = renderer.getPageCount();
-                            for (int i = 0; i < pageCount; i++){
-                                PdfRenderer.Page page = renderer.openPage(i);
-                                Bitmap bitmap = Bitmap.createBitmap(page.getWidth(), page.getHeight(), Bitmap.Config.ARGB_8888);
-                                page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY);
+            FileDownloadTask downloadTask = pdfRef.getFile(file);
 
-                                mangaPageList.add(bitmap);
-                                mangaPagesAdapter.notifyDataSetChanged();
+            downloadTask.addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    // Hide progress bar
+                    progressBar.setVisibility(View.GONE);
 
-                                page.close();
-                            }
-                        } catch (FileNotFoundException e) {
-                            throw new RuntimeException(e);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
+                    // Render manga content
+                    ParcelFileDescriptor fileDescriptor = null;
+                    try {
+                        fileDescriptor = ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY);
+                        PdfRenderer renderer = new PdfRenderer(fileDescriptor);
+
+                        // Render the first page of the PDF into a Bitmap object
+                        int pageCount = renderer.getPageCount();
+                        for (int i = 0; i < pageCount; i++){
+                            PdfRenderer.Page page = renderer.openPage(i);
+                            Bitmap bitmap = Bitmap.createBitmap(page.getWidth(), page.getHeight(), Bitmap.Config.ARGB_8888);
+                            page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY);
+
+                            mangaPageList.add(bitmap);
+                            mangaPagesAdapter.notifyDataSetChanged();
+
+                            page.close();
                         }
+                    } catch (FileNotFoundException e) {
+                        throw new RuntimeException(e);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
 
-                    })
-                    .addOnFailureListener(e -> {
-                        e.printStackTrace();
-                    });
+                    // Add touch listener to show/hide utility bar and toolbar
+                    addTouchListener();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    // Hide progress bar
+                    progressBar.setVisibility(View.GONE);
+                    e.printStackTrace();
+                }
+            }).addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(@NonNull FileDownloadTask.TaskSnapshot snapshot) {
+                    // Update the progress of the download
+                    long totalBytes = snapshot.getTotalByteCount();
+                    long bytesDownloaded = snapshot.getBytesTransferred();
+                    double progress = (100.0 * bytesDownloaded) / totalBytes;
+
+                    progressBar.setProgress((int)progress);
+                }
+            });
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-//        File file = File.createTempFile("cbz", "cbz");
-//        pdfRef.getFile(file)
-//                .addOnCompleteListener(task -> {
-//                    ZipFile zipFile = null;
-//                    try {
-//                        zipFile = new ZipFile(file);
-//                        Enumeration<? extends ZipEntry> entries = zipFile.entries();
-//
-//                        while (entries.hasMoreElements()) {
-//                            ZipEntry entry = entries.nextElement();
-//
-//                            if (!entry.isDirectory()) {
-//                                String name = entry.getName();
-//                                if (name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".png")) {
-//                                    InputStream inputStream = zipFile.getInputStream(entry);
-//                                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-//                                    // Display the bitmap
-//                                    mangaPageList.add(bitmap);
-//
-//                                    inputStream.close();
-//                                }
-//                            }
-//                        }
-//                        //Collections.sort(mangaPageList);
-//                        mangaPagesAdapter.notifyDataSetChanged();
-//                        zipFile.close();
-//                    } catch (IOException e) {
-//                        throw new RuntimeException(e);
-//                    }
-//                });
     }
+
+    private void addTouchListener(){
+        gestureDetector = new GestureDetectorCompat(this, new GestureDetector.SimpleOnGestureListener(){
+
+//            @Override
+//            public boolean onSingleTapConfirmed(@NonNull MotionEvent e) {
+//                boolean visible = ((decorView.getSystemUiVisibility() & View.SYSTEM_UI_FLAG_HIDE_NAVIGATION) == 0)
+//                        && (utilityBar.getVisibility() == View.VISIBLE);
+//                if (visible){
+//                    hideSystemUI();
+//                    utilityBar.setVisibility(View.GONE);
+//                }   else{
+//                    showSystemUI();
+//                    utilityBar.setVisibility(View.VISIBLE);
+//                }
+//                return true;
+//            }
+
+
+            @Override
+            public boolean onSingleTapConfirmed(@NonNull MotionEvent e) {
+                boolean visible = utilityBar.getVisibility() == View.VISIBLE;
+                if (visible){
+                    utilityBar.setVisibility(View.GONE);
+                    if (isExpanded)
+                        appBarLayout.setExpanded(false);
+                }   else{
+                    utilityBar.setVisibility(View.VISIBLE);
+                    if (!isExpanded)
+                        appBarLayout.setExpanded(true);
+                }
+                return true;
+            }
+        });
+    }
+
 }
+

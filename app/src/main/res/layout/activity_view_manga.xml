@@ -41,15 +41,16 @@
             android:layout_height="wrap_content"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-    <!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
-    <!--        android:id="@+id/navigation"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_gravity="bottom"-->
-    <!--        android:background="@color/black"-->
-    <!--        android:visibility="visible"-->
-    <!--        app:itemActiveIndicatorStyle="@style/Animation.Design.BottomSheetDialog"-->
-    <!--        app:menu="@menu/bottom_navigation_menu"/>-->
+    <ProgressBar
+            android:id="@+id/progress_bar"
+            style="?android:progressBarStyleHorizontal"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:progress="80"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:progressDrawable="@drawable/circle"/>
 
     <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/utility_bar"
