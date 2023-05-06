@@ -25,6 +25,15 @@ public class MangaAdapter extends RecyclerView.Adapter<MangaAdapter.MangaViewHol
     List<Manga> mangaList;
 
 
+
+    public void add(Manga mangaItem) {
+        mangaList.add(mangaItem);
+    }
+
+    public void clear() {
+        mangaList.clear();
+    }
+
     public MangaAdapter(Context context, List<Manga> mangaList) {
         this.context = context;
         this.mangaList = mangaList;
