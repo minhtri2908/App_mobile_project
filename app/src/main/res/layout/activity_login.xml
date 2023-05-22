@@ -6,16 +6,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/loginbkg"
-        android:gravity="center"
         android:orientation="vertical"
         tools:context=".Service.LoginActivity">
+
+    <View
+            android:id="@+id/back_login_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/ic_arrow_left_24dp"
+        />
 
     <androidx.cardview.widget.CardView
             android:id="@+id/cardlogin"
             android:layout_width="match_parent"
-            android:layout_height="500dp"
+            android:layout_height="350dp"
             android:layout_margin="30dp"
             android:background="@drawable/custom_edittext"
+            android:layout_centerInParent="true"
             app:cardCornerRadius="30dp"
             app:cardElevation="20dp">
 

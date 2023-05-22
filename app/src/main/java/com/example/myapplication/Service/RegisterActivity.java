@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.example.myapplication.R;
 
-public class Register extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
     EditText username;
     EditText name;
@@ -21,6 +21,8 @@ public class Register extends AppCompatActivity {
     Button signupreg;
 
     TextView logintext;
+
+    private View backView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,15 @@ public class Register extends AppCompatActivity {
 
             }
         });
+
+        backView = findViewById(R.id.back_regis_button);
+        backView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         logintext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

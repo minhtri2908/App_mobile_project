@@ -5,104 +5,66 @@
         android:background="@color/gray"
         android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_margin="10dp"
-            android:layout_marginTop="50dp"
-
-            android:gravity="center">
+            android:layout_height="200dp"
+            android:background="#FFFFFF">
 
         <Button
-                android:layout_width="match_parent"
+                android:id="@+id/button_log_out"
+                android:layout_width="350dp"
                 android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
                 android:backgroundTint="#E4DEDE"
                 android:text="Bấm vào đây để đăng nhập / đăng ký"
-                android:textColor="@color/black">
+                android:textColor="@color/black" />
 
-        </Button>
+    </RelativeLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            android:layout_margin="30dp"
+            android:orientation="vertical"
+            android:background="#FFF">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="Lịch sử"
+                android:textSize="20sp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_history"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"/>
+
     </LinearLayout>
 
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_marginTop="50dp"
-            android:background="@color/white"
-            android:orientation="vertical">
+            android:layout_height="230dp"
+            android:layout_margin="30dp"
+            android:orientation="vertical"
+            android:background="#FFF">
 
         <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="Theo dõi"
+                android:textSize="20sp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Kho manga của tôi"
-                android:textSize="20sp">
-
-        </TextView>
-
-        <TableLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/table_border"
-                android:stretchColumns="*">
-
-            <TableRow>
-
-                <TextView
-                        android:layout_column="1"
-                        android:padding="5dp"
-                        android:text="Cột 1" />
-
-                <TextView
-                        android:layout_column="2"
-                        android:padding="5dp"
-                        android:text="Cột 2" />
-
-                <TextView
-                        android:layout_column="3"
-                        android:padding="5dp"
-                        android:text="Cột 3" />
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                        android:layout_column="1"
-                        android:padding="5dp"
-                        android:text="Dòng 1, Cột 1" />
-
-                <TextView
-                        android:layout_column="2"
-                        android:padding="5dp"
-                        android:text="Dòng 1, Cột 2" />
-
-                <TextView
-                        android:layout_column="3"
-                        android:padding="5dp"
-                        android:text="Dòng 1, Cột 3" />
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                        android:layout_column="1"
-                        android:padding="5dp"
-                        android:text="Dòng 2, Cột 1" />
-
-                <TextView
-                        android:layout_column="2"
-                        android:padding="5dp"
-                        android:text="Dòng 2, Cột 2" />
-
-                <TextView
-                        android:layout_column="3"
-                        android:padding="5dp"
-                        android:text="Dòng 2, Cột 3" />
-            </TableRow>
-
-            <!--Thêm các dòng còn lại-->
-
-        </TableLayout>
+                android:layout_height="200dp"/>
 
     </LinearLayout>
+
+
+
+
 </LinearLayout>

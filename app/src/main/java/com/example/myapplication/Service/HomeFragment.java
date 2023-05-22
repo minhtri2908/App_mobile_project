@@ -57,7 +57,7 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Create adapter
-        mangaAdapter = new MangaAdapter(this.getContext(), mangaList);
+        mangaAdapter = new MangaAdapter(this.getContext(), mangaList, R.layout.manga_item);
 
         // Set recycler view
         recycler_manga = view.findViewById(R.id.recycler_manga);

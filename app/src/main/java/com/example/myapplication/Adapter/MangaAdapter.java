@@ -24,7 +24,7 @@ public class MangaAdapter extends RecyclerView.Adapter<MangaAdapter.MangaViewHol
     Context context;
     List<Manga> mangaList;
 
-
+    int item;
 
     public void add(Manga mangaItem) {
         mangaList.add(mangaItem);
@@ -34,15 +34,16 @@ public class MangaAdapter extends RecyclerView.Adapter<MangaAdapter.MangaViewHol
         mangaList.clear();
     }
 
-    public MangaAdapter(Context context, List<Manga> mangaList) {
+    public MangaAdapter(Context context, List<Manga> mangaList, int item) {
         this.context = context;
         this.mangaList = mangaList;
+        this.item = item;
     }
 
     @NonNull
     @Override
     public MangaAdapter.MangaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(context).inflate(R.layout.manga_item, parent, false);
+        View itemView = LayoutInflater.from(context).inflate(this.item, parent, false);
         return new MangaViewHolder(itemView);
     }
 

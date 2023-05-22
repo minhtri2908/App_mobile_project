@@ -61,7 +61,7 @@ public class SearchFragment extends Fragment {
         // Hiển thị kết quả tìm kiếm trong RecyclerView
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new MangaAdapter(this.getContext(), mangaList);
+        adapter = new MangaAdapter(this.getContext(), mangaList, R.layout.manga_item);
         recyclerView.setAdapter(adapter);
 
         return view;

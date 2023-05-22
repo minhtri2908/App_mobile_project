@@ -15,7 +15,7 @@
             android:name=".Service.ViewMangaActivity"
             android:exported="false" />
         <activity
-            android:name=".Service.Register"
+            android:name=".Service.RegisterActivity"
             android:exported="false" />
         <activity
             android:name=".Service.LoginActivity"

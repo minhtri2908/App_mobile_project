@@ -6,16 +6,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/loginbkg"
-        android:gravity="center"
         android:orientation="vertical"
         tools:context=".Service.MainActivity">
+
+    <View
+            android:id="@+id/back_regis_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/ic_arrow_left_24dp"
+            />
 
     <androidx.cardview.widget.CardView
             android:id="@+id/cardregister"
             android:layout_width="match_parent"
-            android:layout_height="600dp"
-            android:layout_margin="30dp"
+            android:layout_height="500dp"
+            android:layout_centerInParent="true"
             android:background="@drawable/custom_edittext"
+            android:layout_margin="30dp"
             app:cardCornerRadius="30dp"
             app:cardElevation="20dp">
 
@@ -105,19 +112,6 @@
                     android:text="Sign up"
                     android:textSize="18sp"
                     app:cornerRadius="20dp" />
-
-            <TextView
-                    android:id="@+id/siginText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="20dp"
-                    android:padding="8dp"
-                    android:text="Have an account? Log in"
-                    android:textAlignment="center"
-                    android:textColor="@color/purple"
-                    android:textSize="14sp" />
 
 
         </RelativeLayout>

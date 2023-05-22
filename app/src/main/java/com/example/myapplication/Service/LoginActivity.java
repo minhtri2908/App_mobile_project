@@ -1,7 +1,6 @@
 package com.example.myapplication.Service;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -28,6 +27,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private TextView signupText;
 
+    private View backView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +39,14 @@ public class LoginActivity extends AppCompatActivity {
 
         loginButton = findViewById(R.id.loginButton);
         signupText = findViewById(R.id.signupText);
+        backView = findViewById(R.id.back_login_button);
+
+        backView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
 
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
         signupText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), Register.class);
+                Intent intent = new Intent(view.getContext(), RegisterActivity.class);
                 startActivity(intent);
             }
         });
