@@ -41,6 +41,8 @@ public class UserProfileFragment extends Fragment {
 
     private RecyclerView recycler_history;
 
+    private RecyclerView recycler_watchlist;
+
     private MangaAdapter mangaAdapter;
 
     private List<Manga> mangaList = new ArrayList<>();
@@ -88,11 +90,17 @@ public class UserProfileFragment extends Fragment {
         recycler_history.setLayoutManager(layoutManager);
         recycler_history.setAdapter(mangaAdapter);
 
+        recycler_watchlist = view.findViewById(R.id.recycler_watchlist);
+        recycler_watchlist.setHasFixedSize(true);
+        LinearLayoutManager w_layoutManager = new LinearLayoutManager(this.getContext());
+        w_layoutManager.setOrientation(RecyclerView.HORIZONTAL);
+        recycler_watchlist.setLayoutManager(w_layoutManager);
+        recycler_watchlist.setAdapter(mangaAdapter);
+
         // Get data from firestore
         if (mangaList.isEmpty()){
             getMangaList();
         }
-
     }
 
     private void getMangaList() {

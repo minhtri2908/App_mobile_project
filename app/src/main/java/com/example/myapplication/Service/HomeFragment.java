@@ -79,8 +79,11 @@ public class HomeFragment extends Fragment {
                     String url = doc.getString("img");
                     String title = doc.getString("title");
                     String id = doc.getId();
+                    String author = doc.getString("author");
+                    String status = doc.getString("status");
+                    String description = doc.getString("description");
 
-                    Manga myManga = new Manga(id, title, url);
+                    Manga myManga = new Manga(id, title, url, author, status, description);
                     mangaList.add(myManga);
                     Log.i("mangaList data", myManga.toString());
                 }
