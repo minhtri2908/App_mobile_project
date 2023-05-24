@@ -1,9 +1,14 @@
 package com.example.myapplication.Service;
 
+import static androidx.navigation.ActivityKt.findNavController;
+
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -18,12 +23,27 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     static HomeFragment homeFragment = new HomeFragment();
     static SearchFragment searchFragment = new SearchFragment();
-    static SettingFragment settingFragment = new SettingFragment();
+    static SettingsFragment settingFragment = new SettingsFragment();
     static UserProfileFragment userProfileFragment = new UserProfileFragment();
 
     static LoginActivity loginFragment = new LoginActivity();
     private ViewPager viewPager;
 
+    @RequiresApi(Build.VERSION_CODES.N)
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        R.id.setting.setOnClickListener{
+//
+//            findNavController().navigate(R.id.action_MainAcitivity_to_settingsFragment)
+//        }
+//        settings()
+//    }
+
+
+//    @RequiresApi(Build.VERSION_CODES.N)
+//    private fun settings() {
+//
+//
+//    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
     private static class PagerAdapter extends FragmentPagerAdapter {
         private static final int NUM_PAGES = 4;
 
@@ -89,4 +110,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private class override {
+    }
 }
