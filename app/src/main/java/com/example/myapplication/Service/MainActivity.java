@@ -1,21 +1,17 @@
 package com.example.myapplication.Service;
 
-import static androidx.navigation.ActivityKt.findNavController;
-
-import android.os.Build;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.preference.PreferenceManager;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.myapplication.Common.Common;
 import com.example.myapplication.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -29,21 +25,7 @@ public class MainActivity extends AppCompatActivity {
     static LoginActivity loginFragment = new LoginActivity();
     private ViewPager viewPager;
 
-    @RequiresApi(Build.VERSION_CODES.N)
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        R.id.setting.setOnClickListener{
-//
-//            findNavController().navigate(R.id.action_MainAcitivity_to_settingsFragment)
-//        }
-//        settings()
-//    }
 
-
-//    @RequiresApi(Build.VERSION_CODES.N)
-//    private fun settings() {
-//
-//
-//    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,12 +54,26 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     case R.id.setting:
                         viewPager.setCurrentItem(3);
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.container, settingFragment)
+                                .commit();
                         return true;
                     default:
                         return false;
                 }
             }
         });
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean isDarkModeEnabled = sharedPreferences.getBoolean("dark_mode_switch", false);
+        setAppTheme(isDarkModeEnabled);
+    }
+
+    private void setAppTheme(boolean isDarkModeEnabled) {
+        if (isDarkModeEnabled) {
+            setTheme(R.style.AppTheme_Dark); // Áp dụng theme dark
+        } else {
+            setTheme(R.style.AppTheme_Light); // Áp dụng theme sáng
+        }
     }
 
 
@@ -109,7 +105,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
-    private class override {
+    public void onThemeChanged(boolean isDarkModeEnabled) {
+        setTheme(isDarkModeEnabled ? R.style.AppTheme_Dark : R.style.AppTheme_Light);
+        recreate(); // Tái tạo Activity để áp dụng theme mới
     }
 }
