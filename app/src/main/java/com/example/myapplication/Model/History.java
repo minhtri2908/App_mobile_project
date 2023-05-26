@@ -111,4 +111,9 @@ public class History implements Serializable {
     public void setChapterIndex(int chapterIndex) {
         this.chapterIndex = chapterIndex;
     }
+
+    @Override
+    public String toString() {
+        return "History{id='" + id + "', title='" + mangaName + "', chapter=" + chapter + "}";
+    }
 }

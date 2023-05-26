@@ -28,6 +28,7 @@ import android.widget.Toolbar;
 
 import com.example.myapplication.Adapter.MangaPagesAdapter;
 import com.example.myapplication.Common.Common;
+import com.example.myapplication.Database.HistoryDao;
 import com.example.myapplication.Database.HistoryDatabase;
 import com.example.myapplication.Model.History;
 import com.example.myapplication.Model.Manga;
@@ -255,50 +256,44 @@ public class ViewMangaActivity extends AppCompatActivity {
     }
 
     private void addHistory() {
+        HistoryDao instance = HistoryDatabase.getInstance(this).historyDao();
         String mangaId = Common.selected_manga.getId();
 
         if (mHistory == null){
             mHistory = HistoryDatabase.getInstance(this).historyDao().findHistoryById(mangaId);
         }
 
-
         if (mHistory != null){
+            instance.delete(mHistory.getId());
             if (mHistory.getChapterIndex() != Common.chapter_index){
                 mHistory.setChapter(Common.selected_chapter);
                 mHistory.setChapterIndex(Common.chapter_index);
-
-                HistoryDatabase.getInstance(this).historyDao().update(mHistory);
-//                Toast.makeText(this, "Update succeed, chapter index " + Common.chapter_index, Toast.LENGTH_SHORT).show();
             }
-            return;
+        } else {
+            mHistory = new History(Common.selected_manga, Common.selected_chapter, Common.chapter_index);
         }
 
-//        CollectionReference colRef = FirebaseFirestore.getInstance().collection("manga");
-//
-//        DocumentReference docRef = colRef.document(mangaId);
-//        docRef.get().addOnCompleteListener(task -> {
-//            if (task.isSuccessful()) {
-//                DocumentSnapshot doc = task.getResult();
-//
-//                Log.d("doc", doc.getString("title"));
-//
-//                String url = doc.getString("img");
-//                String title = doc.getString("title");
-//                String id = doc.getId();
-//                String author = doc.getString("author");
-//                String status = doc.getString("status");
-//                String description = doc.getString("description");
-//
-//                Manga manga = new Manga(id, title, url, author, status, description);
+        List<History> historyList = HistoryDatabase.getInstance(this).historyDao().getAll();
+        for (History history : historyList){
+            Log.d("history list first", history.toString());
+        }
 
+        instance.deleteAllHistory();
 
-                mHistory = new History(Common.selected_manga, Common.selected_chapter, Common.chapter_index);
+        historyList.add(0, mHistory);
 
-                HistoryDatabase.getInstance(this).historyDao().insert(mHistory);
-//                Toast.makeText(this, "Insert history succeed", Toast.LENGTH_SHORT).show();
+        for (History history : historyList){
+            Log.d("history list second", history.toString());
+        }
 
-//            }
-//        });
+        for (History history : historyList){
+            List<History> histories = instance.getAll();
+            for (History history1 : histories){
+                Log.d("histories item", history1.toString());
+            }
+
+            instance.insert(history);
+        }
     }
 
     private void addTouchListener(){

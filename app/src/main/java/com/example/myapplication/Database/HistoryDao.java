@@ -29,4 +29,7 @@ public interface HistoryDao {
 
     @Query("DELETE FROM history")
     void deleteAllHistory();
+
+    @Query("DELETE FROM history WHERE id = :mangaId")
+    void delete(String mangaId);
 }
