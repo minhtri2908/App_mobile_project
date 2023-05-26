@@ -74,7 +74,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
                     fragment.getLauncher().launch(intent);
                 }
 
-
             }
         });
     }
@@ -108,7 +107,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
         public void onClick(View view) {
             iRecyclerOnClick.onClick(getAbsoluteAdapterPosition(), view);
         }
-
 
     }
 }

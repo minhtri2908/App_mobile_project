@@ -27,6 +27,7 @@ import com.example.myapplication.Adapter.HistoryAdapter;
 import com.example.myapplication.Adapter.MangaAdapter;
 import com.example.myapplication.Common.Common;
 import com.example.myapplication.Database.HistoryDatabase;
+import com.example.myapplication.Database.WatchlistDatabase;
 import com.example.myapplication.Model.History;
 import com.example.myapplication.Model.Manga;
 import com.example.myapplication.R;
@@ -54,11 +55,11 @@ public class UserProfileFragment extends Fragment {
 
     private HistoryAdapter historyAdapter;
 
-    private List<History> historyList = new ArrayList<>();
+    private MangaAdapter watchlistAdapter;
 
-    private Button buttonLogOut;
-    private RelativeLayout user_info;
-    private TextView username;
+    private List<Manga> watchList = new ArrayList<>();
+
+    private List<History> historyList = new ArrayList<>();
 
 
     private final ActivityResultLauncher<Intent> launcher = registerForActivityResult(
@@ -66,6 +67,7 @@ public class UserProfileFragment extends Fragment {
             result -> {
                 if (result.getResultCode() == Activity.RESULT_OK) {
                     getHistoryList();
+                    getWatchList();
                 }
             }
     );
@@ -85,10 +87,6 @@ public class UserProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        buttonLogOut = view.findViewById(R.id.button_log_out);
-//        user_info = view.findViewById(R.id.user_profile_view);
-//        username = view.findViewById(R.id.username);
-
         initUI(view);
 
         // Create adapter
@@ -101,97 +99,37 @@ public class UserProfileFragment extends Fragment {
         recycler_history.setLayoutManager(layoutManager);
         recycler_history.setAdapter(historyAdapter);
 
-//        HistoryDatabase.getInstance(this.getContext()).historyDao().deleteAllHistory();
-
-//        buttonLogOut.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getContext(), LoginActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-
         getHistoryList();
 
-//        recycler_watchlist = view.findViewById(R.id.recycler_watchlist);
-//        recycler_watchlist.setHasFixedSize(true);
-//        LinearLayoutManager w_layoutManager = new LinearLayoutManager(this.getContext());
-//        w_layoutManager.setOrientation(RecyclerView.HORIZONTAL);
-//        recycler_watchlist.setLayoutManager(w_layoutManager);
-//        recycler_watchlist.setAdapter(mangaAdapter);
+        // Watchlist
+        watchlistAdapter = new MangaAdapter(this.getContext(), watchList, R.layout.manga_item_small);
 
+        // Set recycler view
+        recycler_watchlist = view.findViewById(R.id.recycler_watchlist);
+        recycler_watchlist.setHasFixedSize(true);
+        LinearLayoutManager w_layoutManager = new LinearLayoutManager(this.getContext());
+        w_layoutManager.setOrientation(RecyclerView.HORIZONTAL);
+        recycler_watchlist.setLayoutManager(w_layoutManager);
+        recycler_watchlist.setAdapter(watchlistAdapter);
+
+        getWatchList();
     }
-
 
 
     private void initUI(View view){
         recycler_history = view.findViewById(R.id.recycler_history);
     }
 
-    private void addHistory() {
-        CollectionReference colRef = db.collection("manga");
-        String mangaId = "95O4G6v5V159TV7NYOKL";
-        DocumentReference docRef = colRef.document(mangaId);
-        docRef.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                DocumentSnapshot doc = task.getResult();
-
-                Log.d("doc", doc.getString("title"));
-
-                String url = doc.getString("img");
-                String title = doc.getString("title");
-                String id = doc.getId();
-                String author = doc.getString("author");
-                String status = doc.getString("status");
-                String description = doc.getString("description");
-
-                Manga manga = new Manga(id, title, url, author, status, description);
-
-                String chapter = "Ch.001";
-
-                History historyObject = new History(manga, chapter, 0);
-                HistoryDatabase.getInstance(this.getContext()).historyDao().insert(historyObject);
-                Toast.makeText(this.getContext(), "Insert history succeed", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-    }
 
     private void getHistoryList() {
         historyList = HistoryDatabase.getInstance(this.getContext()).historyDao().getAll();
         historyAdapter.setData(historyList);
 
-//        userReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//            @Override
-//            public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                List<String> histories = (List<String>) documentSnapshot.get("history");
-//
-//
-//                for (String history : histories){
-//                    Log.d("ArrayList", history);
-//                    DocumentReference docRef = colRef.document(history);
-//                    docRef.get().addOnCompleteListener(task -> {
-//                        if (task.isSuccessful()) {
-//                            DocumentSnapshot doc = task.getResult();
-//                            Log.d("doc", doc.getString("title"));
-//                            String url = doc.getString("img");
-//                            String title = doc.getString("title");
-//                            String id = doc.getId();
-//                            String author = doc.getString("author");
-//                            String status = doc.getString("status");
-//                            String description = doc.getString("description");
-//
-//                            Manga myManga = new Manga(id, title, url, author, status, description);
-//
-//                            History historyObject = new History(myManga, "Ch.001", 0);
-//                            historyList.add(historyObject);
-//
-//                        }
-//                    });
-//                }
-//            }
-//        });
+    }
 
+    private void getWatchList(){
+        watchList = WatchlistDatabase.getInstance(this.getContext()).mangaDao().getAll();
+        watchlistAdapter.setData(watchList);
     }
 
 }

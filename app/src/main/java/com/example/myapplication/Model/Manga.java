@@ -1,6 +1,12 @@
 package com.example.myapplication.Model;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "watchlist")
 public class Manga {
+    @PrimaryKey @NonNull
     private String id;
     private String name;
     private String image;
@@ -10,6 +16,8 @@ public class Manga {
     private String status;
 
     private String description;
+
+    private boolean isAddToWatchlist;
 
     public Manga() {
     }
@@ -27,6 +35,7 @@ public class Manga {
         this.author = author;
         this.status = status;
         this.description = description;
+        this.isAddToWatchlist = false;
     }
 
     public String getId() {
@@ -71,6 +80,18 @@ public class Manga {
 
     public String getDescription() {
         return description;
+    }
+
+    public boolean isAddToWatchlist() {
+        return isAddToWatchlist;
+    }
+
+    public void setAddToWatchlist(boolean addToWatchlist) {
+        isAddToWatchlist = addToWatchlist;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override

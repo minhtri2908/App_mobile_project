@@ -8,12 +8,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.example.myapplication.Adapter.ChapterAdapter;
 import com.example.myapplication.Common.Common;
+import com.example.myapplication.Database.WatchlistDatabase;
 import com.example.myapplication.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.divider.MaterialDividerItemDecoration;
@@ -40,6 +43,8 @@ public class ChapterActivity extends AppCompatActivity {
     private RecyclerView recycler_chapter;
     private ChapterAdapter chapterAdapter;
 
+    private ImageButton imageButton;
+
     private List<String> chapterList = new ArrayList<>();
 
 
@@ -58,12 +63,39 @@ public class ChapterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Go back
+                Intent intentResult = new Intent();
+                setResult(RESULT_OK, intentResult);
                 finish();
             }
         });
 
         // Set add to watchlist button for Toolbar
+        imageButton = findViewById(R.id.watchlist_button);
 
+        if (Common.selected_manga.isAddToWatchlist()){
+            imageButton.setImageDrawable(getDrawable(R.drawable.baseline_add_box_24_added));
+        } else{
+            imageButton.setImageDrawable(getDrawable(R.drawable.baseline_add_box_24));
+        }
+
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Common.selected_manga.isAddToWatchlist()){
+                    Common.selected_manga.setAddToWatchlist(false);
+
+                    WatchlistDatabase.getInstance(getBaseContext()).mangaDao().delete(Common.selected_manga.getId());
+                    imageButton.setImageDrawable(getDrawable(R.drawable.baseline_add_box_24));
+                } else{
+                    Common.selected_manga.setAddToWatchlist(true);
+
+                    WatchlistDatabase.getInstance(getBaseContext()).mangaDao().insert(Common.selected_manga);
+                    imageButton.setImageDrawable(getDrawable(R.drawable.baseline_add_box_24_added));
+
+                    Toast.makeText(ChapterActivity.this, "Đã thêm vào mục theo dõi", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         // Set imageview
         ImageView imageView = findViewById(R.id.image_view_manga);
@@ -108,7 +140,6 @@ public class ChapterActivity extends AppCompatActivity {
                 chapterAdapter = new ChapterAdapter(ChapterActivity.this, chapterList);
                 recycler_chapter.setAdapter(chapterAdapter);
                 chapterAdapter.notifyDataSetChanged();
-//                Common.chapterList = chapterList;
             }
         });
     }

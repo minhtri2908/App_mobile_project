@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.Service.ChapterActivity;
@@ -16,6 +18,8 @@ import com.example.myapplication.Common.Common;
 import com.example.myapplication.Interface.IRecyclerOnClick;
 import com.example.myapplication.Model.Manga;
 import com.example.myapplication.R;
+import com.example.myapplication.Service.UserProfileFragment;
+import com.example.myapplication.Service.ViewMangaActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -57,9 +61,14 @@ public class MangaAdapter extends RecyclerView.Adapter<MangaAdapter.MangaViewHol
             @Override
             public void onClick(int position, View view) {
                 // Start Chapter Activity
-                context.startActivity(new Intent(context, ChapterActivity.class));
-
                 Common.selected_manga = mangaList.get(position);
+                Intent intent = new Intent(context, ChapterActivity.class);
+
+                if (context instanceof FragmentActivity) {
+                    FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
+                    UserProfileFragment fragment = (UserProfileFragment) fragmentManager.findFragmentByTag("android:switcher:2131230863:2");
+                    fragment.getLauncher().launch(intent);
+                }
             }
         });
     }
@@ -67,6 +76,11 @@ public class MangaAdapter extends RecyclerView.Adapter<MangaAdapter.MangaViewHol
     @Override
     public int getItemCount() {
         return mangaList.size();
+    }
+
+    public void setData(List<Manga> watchList) {
+        this.mangaList = watchList;
+        notifyDataSetChanged();
     }
 
     public class MangaViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

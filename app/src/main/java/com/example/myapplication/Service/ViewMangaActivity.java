@@ -274,17 +274,10 @@ public class ViewMangaActivity extends AppCompatActivity {
         }
 
         List<History> historyList = HistoryDatabase.getInstance(this).historyDao().getAll();
-        for (History history : historyList){
-            Log.d("history list first", history.toString());
-        }
 
         instance.deleteAllHistory();
-
         historyList.add(0, mHistory);
 
-        for (History history : historyList){
-            Log.d("history list second", history.toString());
-        }
 
         for (History history : historyList){
             List<History> histories = instance.getAll();
