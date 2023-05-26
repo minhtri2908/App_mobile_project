@@ -1,33 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/user_profile_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:background="@color/gray"
         android:orientation="vertical">
 
-    <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="#FFFFFF">
+<!--    <RelativeLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="200dp"-->
+<!--            android:background="#FFFFFF">-->
 
-        <Button
-                android:id="@+id/button_log_out"
-                android:layout_width="350dp"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp"
-                android:backgroundTint="#E4DEDE"
-                android:text="Bấm vào đây để đăng nhập / đăng ký"
-                android:textColor="@color/black" />
+<!--        <Button-->
+<!--                android:id="@+id/button_log_out"-->
+<!--                android:layout_width="350dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_centerInParent="true"-->
+<!--                android:layout_marginStart="10dp"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:layout_marginEnd="10dp"-->
+<!--                android:layout_marginBottom="10dp"-->
+<!--                android:backgroundTint="#E4DEDE"-->
+<!--                android:text="Bấm vào đây để đăng nhập / đăng ký"-->
+<!--                android:textColor="@color/black" />-->
 
-    </RelativeLayout>
+<!--        <RelativeLayout-->
+<!--                android:id="@+id/user_profile_view"-->
+<!--                android:visibility="gone"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent">-->
+
+<!--            <de.hdodenhof.circleimageview.CircleImageView-->
+<!--                    android:id="@+id/avatar_image_view"-->
+<!--                    android:layout_width="70dp"-->
+<!--                    android:layout_height="70dp"-->
+<!--                    android:src="@drawable/fb"-->
+<!--                    android:layout_marginLeft="30dp"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    app:civ_border_color="#FFFFFF"-->
+<!--                    app:civ_border_width="2dp" />-->
+
+<!--            <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_toRightOf="@id/avatar_image_view">-->
+<!--                <TextView-->
+<!--                        android:id="@+id/username"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:textSize="16sp"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:text="email"-->
+<!--                        android:gravity="center"-->
+<!--                        android:layout_gravity="center"/>-->
+
+<!--            </LinearLayout>-->
+
+
+<!--        </RelativeLayout>-->
+
+<!--    </RelativeLayout>-->
 
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="230dp"
+            android:layout_height="wrap_content"
             android:layout_margin="30dp"
             android:orientation="vertical"
             android:background="#FFF">
@@ -41,13 +78,13 @@
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_history"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"/>
+                android:layout_height="wrap_content"/>
 
     </LinearLayout>
 
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="230dp"
+            android:layout_height="wrap_content"
             android:layout_margin="30dp"
             android:orientation="vertical"
             android:background="#FFF">
@@ -61,11 +98,10 @@
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_watchlist"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"/>
+                android:layout_height="wrap_content"/>
 
     </LinearLayout>
 
 
-
-
 </LinearLayout>
+

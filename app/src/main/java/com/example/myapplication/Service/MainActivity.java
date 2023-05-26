@@ -16,12 +16,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
-    static HomeFragment homeFragment = new HomeFragment();
-    static SearchFragment searchFragment = new SearchFragment();
-    static SettingFragment settingFragment = new SettingFragment();
-    static UserProfileFragment userProfileFragment = new UserProfileFragment();
-
-    static LoginActivity loginFragment = new LoginActivity();
+    HomeFragment homeFragment = new HomeFragment();
+    SearchFragment searchFragment = new SearchFragment();
+    SettingFragment settingFragment = new SettingFragment();
+    UserProfileFragment userProfileFragment = new UserProfileFragment();
     private ViewPager viewPager;
 
     @Override
@@ -60,8 +58,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private static class PagerAdapter extends FragmentPagerAdapter {
+    private class PagerAdapter extends FragmentPagerAdapter {
         private static final int NUM_PAGES = 4;
+
+
 
         public PagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
                     return null;
             }
         }
+
     }
 
 }

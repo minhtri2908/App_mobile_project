@@ -28,6 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView signupText;
 
     private View backView;
+    UserProfileFragment userProfileFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +37,13 @@ public class LoginActivity extends AppCompatActivity {
 
         usernameEditText = findViewById(R.id.username);
         passwordEditText = findViewById(R.id.password);
+        userProfileFragment =
+                (UserProfileFragment) getSupportFragmentManager().findFragmentById(R.id.user_profile_fragment);
 
         loginButton = findViewById(R.id.loginButton);
         signupText = findViewById(R.id.signupText);
         backView = findViewById(R.id.back_login_button);
+
 
         backView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,16 +66,24 @@ public class LoginActivity extends AppCompatActivity {
                                     Log.d(TAG, "signInWithEmail:success");
                                     Toast.makeText(getApplicationContext(), "Signed In", Toast.LENGTH_SHORT).show();
                                     Common.currentUser = Common.mAuth.getCurrentUser();
-                                    setResult(RESULT_OK);
+
+//                                    if (userProfileFragment != null){
+//                                        Log.d("UpdateUILog", "true");
+//                                        userProfileFragment.updateUI(Common.currentUser);
+//                                    }
+                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    getApplicationContext().startActivity(intent);
                                     finish();
-                                    //restartActivity();
                                 }   else{
                                     Log.w(TAG, "signInWithEmail:failure", task.getException());
                                     Toast.makeText(getApplicationContext(), "Failed sign in", Toast.LENGTH_SHORT).show();
                                     Common.currentUser = null;
-                                    setResult(RESULT_CANCELED);
+//                                    if (userProfileFragment != null){
+//                                        Log.d("UpdateUILog", "false");
+//                                        userProfileFragment.updateUI(null);
+//                                    }
                                     finish();
-                                    //updateUI(null);
                                 }
                             }
                         });
@@ -86,46 +98,5 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-
-//    @Override
-//    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-//        super.onViewCreated(view, savedInstanceState);
-//
-//        usernameEditText = view.findViewById(R.id.username);
-//        passwordEditText = view.findViewById(R.id.password);
-//        loginButton = view.findViewById(R.id.loginButton);
-//        signupText = view.findViewById(R.id.signupText);
-//        loginButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String email = usernameEditText.getText().toString();
-//                String password = passwordEditText.getText().toString();
-//                Common.mAuth.signInWithEmailAndPassword(email, password)
-//                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<AuthResult> task) {
-//                                if (task.isSuccessful()){
-//                                    Log.d(TAG, "signInWithEmail:success");
-//                                    Toast.makeText(getActivity(), "Signed In", Toast.LENGTH_SHORT).show();
-//                                    Common.currentUser = Common.mAuth.getCurrentUser();
-//                                    restartActivity();
-//                                }   else{
-//                                    Log.w(TAG, "signInWithEmail:failure", task.getException());
-//                                    Toast.makeText(getActivity(), "Failed sign in", Toast.LENGTH_SHORT).show();
-//                                    Common.currentUser = null;
-//                                    //updateUI(null);
-//                                }
-//                            }
-//                        });
-//            }
-//        });
-//        signupText.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(view.getContext(), Register.class);
-//                startActivity(intent);
-//            }
-//        });
-//    }
 
 }

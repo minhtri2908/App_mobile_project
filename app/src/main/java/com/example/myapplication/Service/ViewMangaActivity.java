@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.gesture.Gesture;
 import android.graphics.Bitmap;
 import android.graphics.pdf.PdfRenderer;
@@ -27,12 +28,19 @@ import android.widget.Toolbar;
 
 import com.example.myapplication.Adapter.MangaPagesAdapter;
 import com.example.myapplication.Common.Common;
+import com.example.myapplication.Database.HistoryDatabase;
+import com.example.myapplication.Model.History;
+import com.example.myapplication.Model.Manga;
 import com.example.myapplication.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
@@ -69,9 +77,22 @@ public class ViewMangaActivity extends AppCompatActivity {
 
     private ProgressBar progressBar;
 
+    private History mHistory;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mHistory = (History) getIntent().getExtras().get("object_history");
+
+        DocumentReference mangaRef = FirebaseFirestore.getInstance().collection("manga").document(Common.selected_manga.getId());
+        mangaRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Common.chapterList = (List<String>) documentSnapshot.get("chapter");
+            }
+        });
+
         decorView = getWindow().getDecorView();
         setContentView(R.layout.activity_view_manga);
 
@@ -103,6 +124,8 @@ public class ViewMangaActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intentResult = new Intent();
+                setResult(RESULT_OK, intentResult);
                 finish();
             }
         });
@@ -117,7 +140,8 @@ public class ViewMangaActivity extends AppCompatActivity {
                     Toast.makeText(ViewMangaActivity.this, "You are reading first chapter", Toast.LENGTH_SHORT).show();
                 }   else{
                     Common.chapter_index--;
-                    getMangaPages(Common.chapterList.get(Common.chapter_index));
+                    Common.selected_chapter = Common.chapterList.get(Common.chapter_index);
+                    getMangaPages(Common.selected_chapter);
                 }
             }
         });
@@ -129,7 +153,8 @@ public class ViewMangaActivity extends AppCompatActivity {
                     Toast.makeText(ViewMangaActivity.this, "You are reading last chapter", Toast.LENGTH_SHORT).show();
                 }   else{
                     Common.chapter_index++;
-                    getMangaPages(Common.chapterList.get(Common.chapter_index));
+                    Common.selected_chapter = Common.chapterList.get(Common.chapter_index);
+                    getMangaPages(Common.selected_chapter);
                 }
             }
         });
@@ -153,6 +178,7 @@ public class ViewMangaActivity extends AppCompatActivity {
     }
 
     private void getMangaPages(String chapter) {
+        addHistory();
         mangaPageList.clear();
         mangaPagesAdapter.notifyDataSetChanged();
         progressBar.setVisibility(View.VISIBLE);
@@ -224,6 +250,53 @@ public class ViewMangaActivity extends AppCompatActivity {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void addHistory() {
+        String mangaId = Common.selected_manga.getId();
+
+        if (mHistory == null){
+            mHistory = HistoryDatabase.getInstance(this).historyDao().findHistoryById(mangaId);
+        }
+
+
+        if (mHistory != null){
+            if (mHistory.getChapterIndex() != Common.chapter_index){
+                mHistory.setChapter(Common.selected_chapter);
+                mHistory.setChapterIndex(Common.chapter_index);
+
+                HistoryDatabase.getInstance(this).historyDao().update(mHistory);
+//                Toast.makeText(this, "Update succeed, chapter index " + Common.chapter_index, Toast.LENGTH_SHORT).show();
+            }
+            return;
+        }
+
+//        CollectionReference colRef = FirebaseFirestore.getInstance().collection("manga");
+//
+//        DocumentReference docRef = colRef.document(mangaId);
+//        docRef.get().addOnCompleteListener(task -> {
+//            if (task.isSuccessful()) {
+//                DocumentSnapshot doc = task.getResult();
+//
+//                Log.d("doc", doc.getString("title"));
+//
+//                String url = doc.getString("img");
+//                String title = doc.getString("title");
+//                String id = doc.getId();
+//                String author = doc.getString("author");
+//                String status = doc.getString("status");
+//                String description = doc.getString("description");
+//
+//                Manga manga = new Manga(id, title, url, author, status, description);
+
+
+                mHistory = new History(Common.selected_manga, Common.selected_chapter, Common.chapter_index);
+
+                HistoryDatabase.getInstance(this).historyDao().insert(mHistory);
+//                Toast.makeText(this, "Insert history succeed", Toast.LENGTH_SHORT).show();
+
+//            }
+//        });
     }
 
     private void addTouchListener(){

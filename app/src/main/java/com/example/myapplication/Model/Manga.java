@@ -72,4 +72,9 @@ public class Manga {
     public String getDescription() {
         return description;
     }
+
+    @Override
+    public String toString() {
+        return "Manga{id='" + id + "', title='" + name + "', author=" + author + "}";
+    }
 }

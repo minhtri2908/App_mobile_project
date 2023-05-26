@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -41,7 +42,6 @@ public class ChapterActivity extends AppCompatActivity {
 
     private List<String> chapterList = new ArrayList<>();
 
-    private TextView chapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +62,9 @@ public class ChapterActivity extends AppCompatActivity {
             }
         });
 
+        // Set add to watchlist button for Toolbar
+
+
         // Set imageview
         ImageView imageView = findViewById(R.id.image_view_manga);
         Picasso.get().load(Common.selected_manga.getImage()).into(imageView);
@@ -70,7 +73,7 @@ public class ChapterActivity extends AppCompatActivity {
         TextView name = findViewById(R.id.name);
         TextView status = findViewById(R.id.status);
         TextView author = findViewById(R.id.author);
-        chapter = findViewById(R.id.chapter);
+
 
         name.setText(Common.selected_manga.getName());
         status.setText(Common.selected_manga.getStatus());
@@ -96,13 +99,16 @@ public class ChapterActivity extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 chapterList = (List<String>) documentSnapshot.get("chapter");
-//                chapter.setText(chapterList.size());
+
+                TextView chapter = findViewById(R.id.chapter);
+                String chapterText = "Số chương hoàn thành: " + String.valueOf(chapterList.size());
+                chapter.setText(chapterText);
 
                 Log.i("chapterList", chapterList.toString());
                 chapterAdapter = new ChapterAdapter(ChapterActivity.this, chapterList);
                 recycler_chapter.setAdapter(chapterAdapter);
                 chapterAdapter.notifyDataSetChanged();
-                Common.chapterList = chapterList;
+//                Common.chapterList = chapterList;
             }
         });
     }
