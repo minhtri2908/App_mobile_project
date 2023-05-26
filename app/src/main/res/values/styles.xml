@@ -3,13 +3,13 @@
 
 
     <style name="AppTheme_Dark"> <!-- Áp dụng các thuộc tính tùy chỉnh cho giao diện tối -->
-        <item name="android:windowBackground">@android:color/black</item>
+        <item name="android:background">@android:color/black</item>
         <!-- Thiết lập các thuộc tính khác cho chế độ dark -->
         <!-- ... -->
     </style>
 
     <style name="AppTheme_Light">
-        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:background">@android:color/white</item>
         <!-- Thiết lập các thuộc tính khác cho chế độ sáng -->
         <!-- ... -->
     </style>

@@ -3,6 +3,7 @@ package com.example.myapplication.Service;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +25,11 @@ public class MainActivity extends AppCompatActivity {
 
     static LoginActivity loginFragment = new LoginActivity();
     private ViewPager viewPager;
+
+    Switch swicher;
+    boolean nightMode;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
 
     @Override
@@ -54,27 +60,15 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     case R.id.setting:
                         viewPager.setCurrentItem(3);
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.container, settingFragment)
-                                .commit();
                         return true;
                     default:
                         return false;
                 }
             }
         });
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean isDarkModeEnabled = sharedPreferences.getBoolean("dark_mode_switch", false);
-        setAppTheme(isDarkModeEnabled);
     }
 
-    private void setAppTheme(boolean isDarkModeEnabled) {
-        if (isDarkModeEnabled) {
-            setTheme(R.style.AppTheme_Dark); // Áp dụng theme dark
-        } else {
-            setTheme(R.style.AppTheme_Light); // Áp dụng theme sáng
-        }
-    }
+
 
 
     private static class PagerAdapter extends FragmentPagerAdapter {
@@ -104,9 +98,5 @@ public class MainActivity extends AppCompatActivity {
                     return null;
             }
         }
-    }
-    public void onThemeChanged(boolean isDarkModeEnabled) {
-        setTheme(isDarkModeEnabled ? R.style.AppTheme_Dark : R.style.AppTheme_Light);
-        recreate(); // Tái tạo Activity để áp dụng theme mới
     }
 }
