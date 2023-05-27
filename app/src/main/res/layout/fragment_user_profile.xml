@@ -3,8 +3,8 @@
         android:id="@+id/user_profile_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        style="@style/Screen"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:background="@color/gray"
         android:orientation="vertical">
 
 <!--    <RelativeLayout-->
@@ -66,10 +66,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
-            android:orientation="vertical"
-            android:background="#FFF">
+            android:orientation="vertical">
 
         <TextView
+
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:text="Lịch sử"
@@ -87,8 +87,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
-            android:orientation="vertical"
-            android:background="#FFF">
+            android:orientation="vertical">
 
         <TextView
                 android:layout_width="wrap_content"
