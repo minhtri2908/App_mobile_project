@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        style="@style/Screen"
         xmlns:tools="http://schemas.android.com/tools"
+        style="@style/Screen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".Service.HomeFragment">
@@ -20,9 +20,9 @@
                 app:layout_scrollFlags="scroll|enterAlways">
 
             <androidx.appcompat.widget.Toolbar
+                    style="@style/AppTheme"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:background="@color/white"
                     app:layout_scrollFlags="scroll|enterAlways">
 
                 <TextView
@@ -55,8 +55,8 @@
                         android:layout_height="wrap_content">
 
                     <TextView
-                            style="@style/TEXT"
                             android:id="@+id/text1_home_page"
+                            style="@style/TEXT"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
@@ -109,8 +109,8 @@
                     </ViewFlipper>
 
                     <TextView
-                            style="@style/TEXT"
                             android:id="@+id/text2_home_page"
+                            style="@style/TEXT"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/Slide_image"

@@ -14,10 +14,15 @@
         <!-- Customize your theme here. -->
     </style>
     <!-- Thiết lập các thuộc tính khác cho chế độ sáng -->
+
     <style name="AppTheme">
-        <item name="android:background">@android:color/white</item>
+        <item name="android:background">@color/white</item>
 
         <!-- ... -->
+    </style>
+
+    <style name="Theme">
+        <item name="android:theme">@color/gray</item>
     </style>
 
     <style name="TEXT">
