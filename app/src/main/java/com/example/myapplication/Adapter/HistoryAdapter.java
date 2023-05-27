@@ -70,8 +70,10 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
                 // Start Chapter Activity
                 if (context instanceof FragmentActivity) {
                     FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
-                    UserProfileFragment fragment = (UserProfileFragment) fragmentManager.findFragmentByTag("android:switcher:2131230863:2");
-                    fragment.getLauncher().launch(intent);
+                    UserProfileFragment fragment = (UserProfileFragment) fragmentManager.findFragmentByTag("android:switcher:" + R.id.container + ":2");
+                    if (fragment != null) {
+                        fragment.getLauncher().launch(intent);
+                    }
                 }
 
             }
