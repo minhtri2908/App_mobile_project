@@ -13,4 +13,14 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+    <!-- Thiết lập các thuộc tính khác cho chế độ sáng -->
+    <style name="AppTheme">
+        <item name="android:background">@android:color/white</item>
+
+        <!-- ... -->
+    </style>
+
+    <style name="TEXT">
+        <item name="android:textColor">@color/black</item>
+    </style>
 </resources>

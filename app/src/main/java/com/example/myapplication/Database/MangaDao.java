@@ -21,6 +21,9 @@ public interface MangaDao {
     @Query("SELECT * FROM watchlist")
     List<Manga> getAll();
 
+    @Query("SELECT * FROM watchlist WHERE id = :mangaId")
+    Manga findMangaById(String mangaId);
+
     @Query("DELETE FROM watchlist")
     void deleteAllManga();
 

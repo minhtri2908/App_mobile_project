@@ -1,5 +1,7 @@
 package com.example.myapplication.Common;
 
+import androidx.viewpager.widget.ViewPager;
+
 import com.example.myapplication.Model.Manga;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

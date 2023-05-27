@@ -1,0 +1,8 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+        >
+    <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="dark_mode_switch"
+            android:summary="Bật/tắt chế độ tối"
+            android:title="Chế độ tối" />
+</PreferenceScreen>

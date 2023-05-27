@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        style="@style/Screen"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".Service.HomeFragment">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+            style="@style/Screen"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -24,10 +26,10 @@
                     app:layout_scrollFlags="scroll|enterAlways">
 
                 <TextView
+                        style="@style/TEXT"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Đề xuất"
-                        android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />
             </androidx.appcompat.widget.Toolbar>
@@ -53,6 +55,7 @@
                         android:layout_height="wrap_content">
 
                     <TextView
+                            style="@style/TEXT"
                             android:id="@+id/text1_home_page"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -106,6 +109,7 @@
                     </ViewFlipper>
 
                     <TextView
+                            style="@style/TEXT"
                             android:id="@+id/text2_home_page"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

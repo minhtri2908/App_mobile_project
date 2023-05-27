@@ -1,26 +1,36 @@
 package com.example.myapplication.Service;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.preference.PreferenceManager;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.myapplication.Common.Common;
 import com.example.myapplication.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
-    HomeFragment homeFragment = new HomeFragment();
-    SearchFragment searchFragment = new SearchFragment();
-    SettingFragment settingFragment = new SettingFragment();
-    UserProfileFragment userProfileFragment = new UserProfileFragment();
+    static HomeFragment homeFragment = new HomeFragment();
+    static SearchFragment searchFragment = new SearchFragment();
+    static SettingsFragment settingFragment = new SettingsFragment();
+    static UserProfileFragment userProfileFragment = new UserProfileFragment();
+
+    static LoginActivity loginFragment = new LoginActivity();
     private ViewPager viewPager;
+
+    Switch swicher;
+    boolean nightMode;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +68,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private class PagerAdapter extends FragmentPagerAdapter {
+
+
+
+    private static class PagerAdapter extends FragmentPagerAdapter {
         private static final int NUM_PAGES = 4;
-
-
 
         public PagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
@@ -87,7 +98,5 @@ public class MainActivity extends AppCompatActivity {
                     return null;
             }
         }
-
     }
-
 }

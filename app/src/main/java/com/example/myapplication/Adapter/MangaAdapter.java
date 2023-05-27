@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.myapplication.Service.ChapterActivity;
 import com.example.myapplication.Common.Common;
@@ -66,8 +67,13 @@ public class MangaAdapter extends RecyclerView.Adapter<MangaAdapter.MangaViewHol
 
                 if (context instanceof FragmentActivity) {
                     FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
-                    UserProfileFragment fragment = (UserProfileFragment) fragmentManager.findFragmentByTag("android:switcher:2131230863:2");
-                    fragment.getLauncher().launch(intent);
+                    UserProfileFragment fragment = (UserProfileFragment) fragmentManager.findFragmentByTag("android:switcher:" + R.id.container + ":2");
+
+                    if (fragment != null) {
+                        fragment.getLauncher().launch(intent);
+                    } else {
+                        context.startActivity(intent);
+                    }
                 }
             }
         });

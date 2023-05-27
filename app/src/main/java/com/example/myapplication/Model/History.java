@@ -24,6 +24,8 @@ public class History implements Serializable {
 
     private String mangaDescription;
 
+    private Boolean mangaIsAdded;
+
     private String chapter;
 
     private int chapterIndex;
@@ -110,6 +112,14 @@ public class History implements Serializable {
 
     public void setChapterIndex(int chapterIndex) {
         this.chapterIndex = chapterIndex;
+    }
+
+    public Boolean getMangaIsAdded() {
+        return mangaIsAdded;
+    }
+
+    public void setMangaIsAdded(Boolean mangaIsAdded) {
+        this.mangaIsAdded = mangaIsAdded;
     }
 
     @Override

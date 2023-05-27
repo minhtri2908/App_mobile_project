@@ -35,7 +35,6 @@ public class Manga {
         this.author = author;
         this.status = status;
         this.description = description;
-        this.isAddToWatchlist = false;
     }
 
     public String getId() {

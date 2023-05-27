@@ -17,6 +17,7 @@ import android.widget.Toolbar;
 import com.example.myapplication.Adapter.ChapterAdapter;
 import com.example.myapplication.Common.Common;
 import com.example.myapplication.Database.WatchlistDatabase;
+import com.example.myapplication.Model.Manga;
 import com.example.myapplication.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.divider.MaterialDividerItemDecoration;
@@ -72,10 +73,13 @@ public class ChapterActivity extends AppCompatActivity {
         // Set add to watchlist button for Toolbar
         imageButton = findViewById(R.id.watchlist_button);
 
-        if (Common.selected_manga.isAddToWatchlist()){
+        Manga manga = WatchlistDatabase.getInstance(this).mangaDao().findMangaById(Common.selected_manga.getId());
+        if (manga != null){
             imageButton.setImageDrawable(getDrawable(R.drawable.baseline_add_box_24_added));
+            Common.selected_manga.setAddToWatchlist(true);
         } else{
             imageButton.setImageDrawable(getDrawable(R.drawable.baseline_add_box_24));
+            Common.selected_manga.setAddToWatchlist(false);
         }
 
         imageButton.setOnClickListener(new View.OnClickListener() {

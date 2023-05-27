@@ -65,10 +65,10 @@ public class HomeFragment extends Fragment {
         recycler_manga.setLayoutManager(new GridLayoutManager(this.getContext(), 2));
         recycler_manga.setAdapter(mangaAdapter);
 
-        // Get data from firestore
-        if (mangaList.isEmpty()){
-            getMangaList();
-        }
+        // Reset manga list
+        mangaList.clear();
+        getMangaList();
+
         Log.i("mangaList", String.valueOf(mangaList));
     }
 
@@ -82,6 +82,7 @@ public class HomeFragment extends Fragment {
                     String author = doc.getString("author");
                     String status = doc.getString("status");
                     String description = doc.getString("description");
+                    Boolean isAdded = doc.getBoolean("isAdded");
 
                     Manga myManga = new Manga(id, title, url, author, status, description);
                     mangaList.add(myManga);
