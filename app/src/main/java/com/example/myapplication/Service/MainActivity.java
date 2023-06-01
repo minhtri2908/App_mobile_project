@@ -62,6 +62,23 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                // Không cần thực hiện gì trong phương thức này
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                // Cập nhật item được chọn trong BottomNavigationView khi vuốt màn hình
+                bottomNavigationView.getMenu().getItem(position).setChecked(true);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                // Không cần thực hiện gì trong phương thức này
+            }
+        });
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat
@@ -100,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
         private static final int NUM_PAGES = 4;
 
         public PagerAdapter(FragmentManager fragmentManager) {
-            super(fragmentManager);
+            super(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
         @Override
