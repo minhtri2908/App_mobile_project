@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SearchFragment extends Fragment {
+    private static final String TAG = null;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private RecyclerView recyclerView;
     private MangaAdapter adapter;
@@ -68,11 +69,13 @@ public class SearchFragment extends Fragment {
     }
 
     private void searchFirestore(String searchQuery) {
+
+        String searchkey = searchQuery.toLowerCase();
         // Tạo truy vấn để tìm kiếm Manga với tiêu đề chứa searchQuery
         db.collection("manga")
-                .orderBy("title")
-                .startAt(searchQuery)
-                .endAt(searchQuery + "\uf8ff")
+                .orderBy("search")
+                .startAt(searchkey)
+                .endAt(searchkey + "\uf8ff")
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -95,4 +98,5 @@ public class SearchFragment extends Fragment {
                     }
                 });
     }
+
 }
