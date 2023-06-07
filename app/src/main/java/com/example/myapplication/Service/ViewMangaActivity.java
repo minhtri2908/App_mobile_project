@@ -78,6 +78,8 @@ public class ViewMangaActivity extends AppCompatActivity {
 
     private ProgressBar progressBar;
 
+    private ProgressBar nProgressBar;
+
     private History mHistory;
 
     @Override
@@ -103,6 +105,7 @@ public class ViewMangaActivity extends AppCompatActivity {
         utilityBar.setVisibility(View.GONE);
 
         progressBar = findViewById(R.id.progress_bar);
+        nProgressBar = findViewById(R.id.circular_progress_bar);
 
         appBarLayout = findViewById(R.id.app_bar_layout);
         appBarLayout.setExpanded(true);
@@ -185,6 +188,7 @@ public class ViewMangaActivity extends AppCompatActivity {
         mangaPageList.clear();
         mangaPagesAdapter.notifyDataSetChanged();
         progressBar.setVisibility(View.VISIBLE);
+        nProgressBar.setVisibility(View.VISIBLE);
         Common.selected_chapter = chapter;
         toolbar.setTitle(Common.selected_chapter);
 
@@ -203,6 +207,7 @@ public class ViewMangaActivity extends AppCompatActivity {
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     // Hide progress bar
                     progressBar.setVisibility(View.GONE);
+                    nProgressBar.setVisibility(View.GONE);
 
                     // Render manga content
                     ParcelFileDescriptor fileDescriptor = null;
@@ -236,6 +241,7 @@ public class ViewMangaActivity extends AppCompatActivity {
                 public void onFailure(@NonNull Exception e) {
                     // Hide progress bar
                     progressBar.setVisibility(View.GONE);
+                    nProgressBar.setVisibility(View.GONE);
                     e.printStackTrace();
                 }
             }).addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {

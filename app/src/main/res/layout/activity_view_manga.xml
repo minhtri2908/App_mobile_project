@@ -43,15 +43,24 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     <ProgressBar
+            android:id="@+id/circular_progress_bar"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            android:progress="80"
+            android:progressDrawable="@drawable/circle"
+            app:layout_anchor="@+id/circular_progress_bar"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <ProgressBar
             android:id="@+id/progress_bar"
             style="?android:progressBarStyleHorizontal"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:progress="80"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center_horizontal"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:progressDrawable="@drawable/circle"/>
+            app:layout_anchor="@+id/circular_progress_bar"
+            app:layout_anchorGravity="bottom|center"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/utility_bar"
