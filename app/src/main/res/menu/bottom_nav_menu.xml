@@ -11,7 +11,7 @@
     <item
             android:id="@+id/user_profile"
             android:icon="@drawable/user_01_svgrepo_com"
-            android:title="User Profile" />
+            android:title="Me" />
     <item
             android:id="@+id/setting"
             android:icon="@drawable/baseline_settings_24"
