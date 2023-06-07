@@ -39,7 +39,7 @@ public class ChapterActivity extends AppCompatActivity {
 
     private String selected_manga_id = Common.selected_manga.getId();
 
-    private DocumentReference chapterReference = db.collection("manga").document(selected_manga_id);
+    private DocumentReference chapterReference = db.collection("manga_search").document(selected_manga_id);
 
     private RecyclerView recycler_chapter;
     private ChapterAdapter chapterAdapter;

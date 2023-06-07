@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -72,7 +73,7 @@ public class SearchFragment extends Fragment {
 
         String searchkey = searchQuery.toLowerCase();
         // Tạo truy vấn để tìm kiếm Manga với tiêu đề chứa searchQuery
-        db.collection("manga")
+        db.collection("manga_search")
                 .orderBy("search")
                 .startAt(searchkey)
                 .endAt(searchkey + "\uf8ff")
@@ -83,8 +84,13 @@ public class SearchFragment extends Fragment {
                         // Xóa dữ liệu cũ trong adapter và thêm dữ liệu mới từ Firestore vào
                         adapter.clear();
                         for (DocumentSnapshot document : queryDocumentSnapshots) {
-                            Manga mangaItem = new Manga(document.getId(),
-                                    document.getString("title"), document.getString("img"));
+                            String url = document.getString("img");
+                            String title =  document.getString("title");
+                            String id =  document.getId();
+                            String author =  document.getString("author");
+                            String status =  document.getString("status");
+                            String description =  document.getString("description");
+                            Manga mangaItem = new Manga(id, title, url, author, status, description);
                             adapter.add(mangaItem);
                         }
                         // Cập nhật lại RecyclerView

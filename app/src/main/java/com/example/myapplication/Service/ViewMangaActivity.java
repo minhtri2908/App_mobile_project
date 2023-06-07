@@ -88,7 +88,7 @@ public class ViewMangaActivity extends AppCompatActivity {
             mHistory = (History) getIntent().getExtras().get("object_history");
         }
 
-        DocumentReference mangaRef = FirebaseFirestore.getInstance().collection("manga").document(Common.selected_manga.getId());
+        DocumentReference mangaRef = FirebaseFirestore.getInstance().collection("manga_search").document(Common.selected_manga.getId());
         mangaRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {

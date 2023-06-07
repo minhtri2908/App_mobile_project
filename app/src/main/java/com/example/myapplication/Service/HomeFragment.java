@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.media.MediaSession2Service;
@@ -38,7 +39,7 @@ public class HomeFragment extends Fragment {
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    private CollectionReference colRef = db.collection("manga");
+    private CollectionReference colRef = db.collection("manga_search");
 
     private RecyclerView recycler_manga;
 
@@ -74,22 +75,24 @@ public class HomeFragment extends Fragment {
 
     private void getMangaList() {
         colRef.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()){
-                for (QueryDocumentSnapshot doc : task.getResult()){
-                    String url = doc.getString("img");
-                    String title = doc.getString("title");
-                    String id = doc.getId();
-                    String author = doc.getString("author");
-                    String status = doc.getString("status");
-                    String description = doc.getString("description");
-                    Boolean isAdded = doc.getBoolean("isAdded");
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot doc : task.getResult()) {
+                    if (doc.getBoolean("show") == true) {
+                        String url = doc.getString("img");
+                        String title = doc.getString("title");
+                        String id = doc.getId();
+                        String author = doc.getString("author");
+                        String status = doc.getString("status");
+                        String description = doc.getString("description");
+                        Boolean isAdded = doc.getBoolean("isAdded");
 
-                    Manga myManga = new Manga(id, title, url, author, status, description);
-                    mangaList.add(myManga);
-                    Log.i("mangaList data", myManga.toString());
+                        Manga myManga = new Manga(id, title, url, author, status, description);
+                        mangaList.add(myManga);
+                        Log.i("mangaList data", myManga.toString());
+                    }
                 }
                 mangaAdapter.notifyDataSetChanged();
-            }   else{
+            } else {
                 Log.d(TAG, "Error getting doc: ", task.getException());
             }
         });
